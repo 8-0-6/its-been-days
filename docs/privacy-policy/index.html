@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - It's Been Days</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #111;
+      max-width: 760px;
+      margin: 64px auto;
+      padding: 0 24px 120px;
+    }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 1.15rem; font-weight: 600; margin-top: 40px; margin-bottom: 8px; }
+    p, li { color: #333; }
+    ul { padding-left: 24px; }
+    li { margin-bottom: 6px; }
+    .meta { color: #888; font-size: 14px; margin-bottom: 48px; }
+    a { color: #4f46e5; }
+    code { background: #f5f5f5; padding: 2px 4px; border-radius: 4px; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111; color: #f0f0f0; }
+      p, li { color: #ccc; }
+      .meta { color: #777; }
+      code { background: #2a2a2a; }
+      a { color: #a5b4fc; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p class="meta">It's Been Days Chrome Extension - Last updated: March 2026</p>
+
+  <p>
+    It's Been Days helps you track tab inactivity and recover closed tabs.
+    Privacy-first behavior is a core design principle of this extension.
+  </p>
+
+  <h2>What data is collected</h2>
+  <p>
+    The extension stores data locally on your device via <code>chrome.storage.local</code>, including:
+  </p>
+  <ul>
+    <li>Tab URLs, titles, and favicon URLs</li>
+    <li>Tab timestamps (opened, last visited, inactivity age)</li>
+    <li>Locally archived closed-tab entries (up to 500 items)</li>
+    <li>Local settings (notification preference and threshold)</li>
+  </ul>
+  <p><strong>No tab or usage data is sent to external servers.</strong></p>
+
+  <h2>Optional history import</h2>
+  <p>
+    The extension may request the optional <code>history</code> permission only if you explicitly
+    choose to import browser history during onboarding. This import is local-only.
+  </p>
+
+  <h2>Accounts, payments, and third-party links</h2>
+  <p>
+    This version does not require sign-in, account creation, or subscription for core functionality.
+    An optional support link (for example, Buy Me a Coffee) opens an external website, which is governed
+    by that website's own privacy policy.
+  </p>
+
+  <h2>Permissions used</h2>
+  <ul>
+    <li><strong>tabs</strong> - read tab title/URL/activity for core tab management features</li>
+    <li><strong>storage</strong> - persist local metadata and settings</li>
+    <li><strong>notifications</strong> - optional daily stale-tab reminder</li>
+    <li><strong>activeTab</strong> - activate overlay on current tab when triggered</li>
+    <li><strong>scripting</strong> - inject overlay script when requested</li>
+    <li><strong>alarms</strong> - run daily inactivity checks</li>
+    <li><strong>history</strong> (optional) - one-time local import only when user opts in</li>
+    <li><strong>&lt;all_urls&gt;</strong> host permission - required to inject overlay across pages</li>
+  </ul>
+
+  <h2>Retention and deletion</h2>
+  <p>
+    Local extension data remains in your browser profile until you clear it in extension settings
+    or uninstall the extension.
+  </p>
+
+  <h2>Policy updates</h2>
+  <p>
+    If this policy changes materially, the "Last updated" date will be revised.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    For privacy questions, open an issue at
+    <a href="https://github.com/8-0-6/its-been-days/issues">github.com/8-0-6/its-been-days/issues</a>.
+  </p>
+</body>
+</html>
