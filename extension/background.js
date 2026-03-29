@@ -14,7 +14,7 @@ import {
 } from './utils/archive.js';
 const ALARM_DAILY = 'daily-check';
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
-const TIP_JAR_URL = 'https://buymeacoffee.com/your-handle';
+const TIP_JAR_URL = 'https://buymeacoffee.com/itsbeendays';
 
 // ── Access level ────────────────────────────────────────────────────────────
 

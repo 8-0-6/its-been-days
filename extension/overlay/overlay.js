@@ -237,21 +237,6 @@
   sliderEnds.innerHTML = '<span>1 day</span><span>30 days</span>';
   sliderRow.appendChild(sliderEnds);
 
-  // — Support —
-  const supportSection = makeSection('Support');
-  const supportText = document.createElement('p');
-  supportText.className = 'ibd-set-muted';
-  supportText.textContent = 'Free and open source. If this helps you, consider buying me a coffee.';
-  supportSection.appendChild(supportText);
-
-  const tipRow = document.createElement('div');
-  tipRow.className = 'ibd-account-row';
-  const tipBtn = document.createElement('button');
-  tipBtn.className = 'ibd-btn ibd-btn-primary';
-  tipBtn.textContent = 'Buy Me a Coffee \u2192';
-  tipRow.appendChild(tipBtn);
-  supportSection.appendChild(tipRow);
-
   // — Archive —
   const archiveSection = makeSection('Archive');
 
@@ -277,13 +262,28 @@
   clearConfirm.appendChild(clearNo);
   archiveSection.appendChild(clearConfirm);
 
+  // — Support —
+  const supportSection = makeSection('Support');
+  const supportText = document.createElement('p');
+  supportText.className = 'ibd-set-muted';
+  supportText.textContent = 'Free and open source. If this helps you, consider buying me a coffee.';
+  supportSection.appendChild(supportText);
+
+  const tipRow = document.createElement('div');
+  tipRow.className = 'ibd-account-row';
+  const tipBtn = document.createElement('button');
+  tipBtn.className = 'ibd-btn ibd-btn-primary';
+  tipBtn.textContent = 'Buy Me a Coffee \u2192';
+  tipRow.appendChild(tipBtn);
+  supportSection.appendChild(tipRow);
+
   // — Keyboard shortcut —
   const kbSection = makeSection('Keyboard Shortcut');
   const kbNote = document.createElement('p');
   kbNote.className = 'ibd-set-muted';
   kbNote.innerHTML =
     '<kbd class="ibd-kbd">\u2318 Shift Space</kbd> opens this overlay. ' +
-    'If it doesn\u2019t work, another app (Alfred, Raycast) may be claiming it.';
+    'If it doesn't work, remap it at chrome://extensions/shortcuts.';
   kbSection.appendChild(kbNote);
 
   // ── State ──────────────────────────────────────────────────────────────────
