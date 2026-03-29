@@ -1,0 +1,1185 @@
+/* It's Been Days — Overlay styles
+   Loaded inside a shadow DOM, so these selectors are fully isolated. */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Utility ──────────────────────────────────────────────────────────────── */
+
+.ibd-hidden { display: none !important; }
+
+/* ── Backdrop ──────────────────────────────────────────────────────────────── */
+
+.ibd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ibd-backdrop.ibd-hidden {
+  display: none;
+}
+
+/* ── Panel ─────────────────────────────────────────────────────────────────── */
+
+.ibd-panel {
+  width: 560px;
+  max-height: 520px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header / Search ───────────────────────────────────────────────────────── */
+
+.ibd-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.ibd-search {
+  flex: 1;
+  height: 36px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: inherit;
+  color: #111;
+  background: transparent;
+  caret-color: #0071e3;
+}
+
+.ibd-search::placeholder {
+  color: #aaa;
+}
+
+.ibd-esc {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+  background: #f5f5f5;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  user-select: none;
+  cursor: default;
+  flex-shrink: 0;
+}
+
+/* ── Paywall banner ────────────────────────────────────────────────────────── */
+
+.ibd-paywall {
+  padding: 8px 16px;
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  border-bottom: 1px solid #fde68a;
+  flex-shrink: 0;
+}
+
+.ibd-paywall-link {
+  color: #92400e;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ibd-paywall-link:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ibd-paywall {
+    background: #3d2e00;
+    color: #fcd34d;
+    border-bottom-color: #4d3900;
+  }
+  .ibd-paywall-link {
+    color: #fcd34d;
+  }
+}
+
+/* ── Results ───────────────────────────────────────────────────────────────── */
+
+.ibd-results {
+  overflow-y: auto;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+.ibd-results::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ibd-results::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 2px;
+}
+
+.ibd-empty {
+  padding: 28px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+.ibd-empty-sub {
+  font-size: 12px;
+  color: #d4d4d4;
+  margin-top: 4px;
+}
+
+/* ── Skeleton loading rows ─────────────────────────────────────────────────── */
+
+@keyframes ibd-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.ibd-skeleton-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 16px;
+  min-height: 46px;
+  justify-content: center;
+}
+
+.ibd-skeleton-title,
+.ibd-skeleton-url {
+  border-radius: 3px;
+  animation: ibd-shimmer 1.4s infinite linear;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+}
+
+.ibd-skeleton-title {
+  height: 10px;
+  width: 60%;
+}
+
+.ibd-skeleton-url {
+  height: 8px;
+  width: 40%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ibd-empty-sub { color: #444; }
+  .ibd-skeleton-title,
+  .ibd-skeleton-url {
+    background: linear-gradient(90deg, #2c2c2e 25%, #3a3a3c 50%, #2c2c2e 75%);
+    background-size: 800px 100%;
+  }
+}
+
+/* ── Row ───────────────────────────────────────────────────────────────────── */
+
+.ibd-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  min-height: 46px;
+  position: relative;
+  transition: background 0.08s;
+}
+
+.ibd-row:hover {
+  background: #f5f5f5;
+}
+
+.ibd-row--active {
+  background: #efefef;
+}
+
+/* Show delete button on hover or when row is active */
+.ibd-row:hover .ibd-delete,
+.ibd-row--active .ibd-delete {
+  opacity: 1;
+}
+
+/* ── Dot ───────────────────────────────────────────────────────────────────── */
+
+.ibd-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ibd-dot--open {
+  background: #22c55e;
+}
+
+.ibd-dot--archived {
+  background: #d1d5db;
+}
+
+/* ── Favicon ───────────────────────────────────────────────────────────────── */
+
+.ibd-favicon {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  border-radius: 3px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ── Info block ────────────────────────────────────────────────────────────── */
+
+.ibd-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ibd-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+
+.ibd-url {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+/* ── Age badge ─────────────────────────────────────────────────────────────── */
+
+.ibd-age {
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+  background: #f3f4f6;
+  border-radius: 5px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Delete button ─────────────────────────────────────────────────────────── */
+
+.ibd-delete {
+  /* Visual: 28px. Hit area: extended via negative margin + padding to ~36px effective. */
+  width: 28px;
+  height: 28px;
+  margin: -3px -3px -3px 0;
+  padding: 3px;
+  border: none;
+  background: none;
+  color: #bbb;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.1s, background 0.1s, color 0.1s;
+}
+
+.ibd-delete:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* ── Settings button ───────────────────────────────────────────────────────── */
+
+.ibd-settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  transition: color 0.12s, background 0.12s;
+}
+
+.ibd-settings-btn:hover {
+  color: #555;
+  background: #f0f0f0;
+}
+
+/* ── Trial banner ──────────────────────────────────────────────────────────── */
+
+.ibd-trial-banner {
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-bottom: 1px solid #dbeafe;
+  flex-shrink: 0;
+}
+
+.ibd-trial-banner.ibd-hidden { display: none; }
+
+.ibd-trial-warn {
+  background: #fffbeb;
+  color: #92400e;
+  border-bottom-color: #fde68a;
+}
+
+.ibd-trial-danger {
+  background: #fef2f2;
+  color: #991b1b;
+  border-bottom-color: #fecaca;
+}
+
+/* ── Section headers + dividers ────────────────────────────────────────────── */
+
+.ibd-section-header {
+  padding: 8px 16px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #bbb;
+  user-select: none;
+}
+
+.ibd-section-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 4px 0;
+}
+
+/* ── Suggested rows (open tabs over threshold) ─────────────────────────────── */
+/* Background tint, not colored left border (left-border is a generic SaaS pattern) */
+
+.ibd-row--suggested {
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.ibd-row--suggested:hover {
+  background: rgba(245, 158, 11, 0.10);
+}
+
+.ibd-row--suggested .ibd-title {
+  color: #888;
+}
+
+/* ── Keep button (shown on stale rows) ────────────────────────────────────── */
+
+.ibd-keep {
+  height: 22px;
+  padding: 0 8px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #888;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: border-color 0.1s, color 0.1s;
+}
+
+.ibd-keep:hover {
+  border-color: #22c55e;
+  color: #16a34a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ibd-keep {
+    border-color: #3a3a3c;
+    color: #666;
+  }
+  .ibd-keep:hover {
+    border-color: #22c55e;
+    color: #4ade80;
+  }
+}
+
+/* ── Section header row (label + optional inline action) ───────────────────── */
+
+.ibd-section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 4px;
+  user-select: none;
+}
+
+.ibd-section-count {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #bbb;
+}
+
+.ibd-section-count--stale {
+  color: #d97706; /* amber-600 */
+}
+
+.ibd-close-inline-btn {
+  height: 22px;
+  padding: 0 9px;
+  background: none;
+  border: 1px solid #f59e0b;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #d97706;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.ibd-close-inline-btn:hover {
+  background: rgba(245, 158, 11, 0.1);
+  color: #b45309;
+}
+
+/* ── "All caught up" row ───────────────────────────────────────────────────── */
+
+.ibd-all-caught-up {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.ibd-all-caught-up-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
+/* ── Close-tab button (shown on open rows in stale section + search results) ── */
+
+.ibd-close-tab {
+  width: 28px;
+  height: 28px;
+  margin: -3px -3px -3px 0;
+  padding: 3px;
+  border: none;
+  background: none;
+  color: #bbb;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.1s, background 0.1s, color 0.1s;
+}
+
+.ibd-close-tab:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Show close button on hover / keyboard-active rows */
+.ibd-row:hover .ibd-close-tab,
+.ibd-row--active .ibd-close-tab {
+  opacity: 1;
+}
+
+/* ── Close-suggested footer (retained as fallback / search mode) ────────────── */
+
+.ibd-close-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+
+.ibd-close-footer.ibd-hidden { display: none; }
+
+.ibd-close-all-btn {
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: 1px solid #f59e0b;
+  color: #f59e0b;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s;
+}
+
+.ibd-close-all-btn:hover {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+/* ── Undo toast ────────────────────────────────────────────────────────────── */
+
+.ibd-undo-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px;
+  background: #1f2937;
+  color: #f9fafb;
+  font-size: 12px;
+  border-top: 1px solid #374151;
+  flex-shrink: 0;
+}
+
+.ibd-undo-toast.ibd-hidden { display: none; }
+
+.ibd-undo-btn {
+  background: none;
+  border: 1px solid #6b7280;
+  color: #d1d5db;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.ibd-undo-btn:hover {
+  border-color: #d1d5db;
+  color: #f9fafb;
+}
+
+/* ── Main view wrapper ─────────────────────────────────────────────────────── */
+
+.ibd-main-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Settings view ─────────────────────────────────────────────────────────── */
+
+.ibd-settings-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ibd-settings-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.ibd-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0071e3;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 4px 6px;
+  border-radius: 5px;
+  transition: background 0.1s;
+}
+
+.ibd-back-btn:hover { background: rgba(0,113,227,0.07); }
+
+.ibd-settings-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+}
+
+.ibd-settings-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 12px 16px 20px;
+}
+
+.ibd-settings-body::-webkit-scrollbar { width: 4px; }
+.ibd-settings-body::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
+
+/* ── Settings sections ─────────────────────────────────────────────────────── */
+
+.ibd-set-section {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.ibd-set-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #aaa;
+  margin-bottom: 12px;
+}
+
+.ibd-set-muted {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.ibd-set-note {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 6px;
+}
+
+.ibd-set-success {
+  font-size: 12px;
+  color: #16a34a;
+  margin-top: 8px;
+}
+
+.ibd-set-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 8px;
+}
+
+/* ── Toggle ────────────────────────────────────────────────────────────────── */
+
+.ibd-set-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 13px;
+  gap: 12px;
+  padding: 2px 0;
+}
+
+.ibd-toggle-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ibd-toggle-wrap input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.ibd-toggle-track {
+  display: block;
+  width: 38px;
+  height: 21px;
+  background: #d1d5db;
+  border-radius: 11px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.ibd-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ibd-toggle-wrap input:checked + .ibd-toggle-track { background: #34c759; }
+.ibd-toggle-wrap input:checked + .ibd-toggle-track::after { transform: translateX(17px); }
+
+/* ── Slider ────────────────────────────────────────────────────────────────── */
+
+.ibd-set-slider-row {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.ibd-set-slider-label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.ibd-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #e5e7eb;
+  outline: none;
+  cursor: pointer;
+}
+
+.ibd-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1c1c1e;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ibd-slider-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* ── Auth form ─────────────────────────────────────────────────────────────── */
+
+.ibd-auth-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ibd-text-input {
+  flex: 1;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #111;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.ibd-text-input:focus { border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.12); }
+
+/* ── Account rows ──────────────────────────────────────────────────────────── */
+
+.ibd-account-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.ibd-account-row:last-child { margin-bottom: 0; }
+
+.ibd-account-email {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ibd-status-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #f2f2f7;
+  color: #3c3c43;
+  border: 1px solid rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+
+.ibd-badge-trial   { background: rgba(245,158,11,0.1); color: #a05e00; border-color: rgba(245,158,11,0.25); }
+.ibd-badge-active  { background: rgba(34,197,94,0.1);  color: #1a7a34; border-color: rgba(34,197,94,0.25); }
+.ibd-badge-expired { background: rgba(239,68,68,0.08); color: #c0392b; border-color: rgba(239,68,68,0.2); }
+
+.ibd-trial-status-line {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.ibd-trial-status-active { color: #f59e0b; }
+.ibd-trial-status-expired { color: #ef4444; }
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+
+.ibd-btn {
+  height: 30px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, opacity 0.12s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ibd-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ibd-btn-primary { background: #0f0f0f; color: #fff; }
+.ibd-btn-primary:hover:not(:disabled) { background: #2c2c2c; }
+
+.ibd-btn-ghost {
+  background: transparent;
+  color: #888;
+  border: 1px solid #e5e7eb;
+}
+.ibd-btn-ghost:hover:not(:disabled) { color: #111; border-color: #aaa; }
+
+.ibd-btn-destructive {
+  background: transparent;
+  color: #8e8e93;
+  border: 1px solid rgba(0,0,0,0.12);
+  margin-top: 4px;
+}
+.ibd-btn-destructive:hover:not(:disabled) { color: #dc2626; border-color: rgba(220,38,38,0.35); background: rgba(220,38,38,0.04); }
+
+.ibd-btn-destructive-sm {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 11px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.ibd-btn-ghost-sm {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 11px;
+  background: transparent;
+  color: #888;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── Clear confirm ─────────────────────────────────────────────────────────── */
+
+.ibd-clear-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+/* ── Keyboard shortcut ─────────────────────────────────────────────────────── */
+
+.ibd-kbd {
+  font-family: inherit;
+  font-size: 11px;
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ── Onboarding view ───────────────────────────────────────────────────────── */
+
+.ibd-onboarding-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.ibd-onboarding-view.ibd-hidden { display: none; }
+
+.ibd-onboarding-body {
+  padding: 20px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ibd-onboarding-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.35;
+}
+
+.ibd-onboarding-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ibd-onboarding-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.ibd-onboarding-bullets li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3c3c43;
+  flex-shrink: 0;
+}
+
+.ibd-onboarding-import-card {
+  background: #f9f9fb;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ibd-onboarding-import-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+}
+
+.ibd-onboarding-import-sub {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.ibd-import-status {
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.ibd-import-status--success { color: #16a34a; }
+.ibd-import-status--error   { color: #dc2626; }
+.ibd-import-status--loading { color: #0071e3; }
+
+/* ── Dark mode ─────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  .ibd-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .ibd-panel {
+    background: #1c1c1e;
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.07);
+  }
+
+  .ibd-header {
+    border-bottom-color: #2c2c2e;
+  }
+
+  .ibd-search {
+    color: #f0f0f0;
+  }
+
+  .ibd-search::placeholder {
+    color: #555;
+  }
+
+  .ibd-esc {
+    color: #555;
+    background: #2c2c2e;
+    border-color: #3a3a3c;
+  }
+
+  .ibd-row:hover {
+    background: #2a2a2c;
+  }
+
+  .ibd-row--active {
+    background: #242424;
+  }
+
+  .ibd-dot--archived {
+    background: #4b5563;
+  }
+
+  .ibd-title {
+    color: #f0f0f0;
+  }
+
+  .ibd-url {
+    color: #666;
+  }
+
+  .ibd-age {
+    color: #666;
+    background: #2c2c2e;
+  }
+
+  .ibd-delete {
+    color: #555;
+  }
+
+  .ibd-delete:hover {
+    background: #3b1515;
+    color: #f87171;
+  }
+
+  .ibd-empty {
+    color: #555;
+  }
+
+  .ibd-results::-webkit-scrollbar-thumb {
+    background: #3a3a3c;
+  }
+
+  .ibd-settings-btn { color: #555; }
+  .ibd-settings-btn:hover { color: #aaa; background: #2c2c2e; }
+
+  .ibd-settings-header { border-bottom-color: #2c2c2e; }
+  .ibd-settings-title { color: #f0f0f0; }
+  .ibd-back-btn { color: #409cff; }
+  .ibd-back-btn:hover { background: rgba(64,156,255,0.1); }
+  .ibd-btn-primary { background: #f0f0f0; color: #1c1c1e; }
+  .ibd-btn-primary:hover:not(:disabled) { background: #e0e0e0; }
+
+  .ibd-settings-body::-webkit-scrollbar-thumb { background: #3a3a3c; }
+
+  .ibd-set-section { background: #1c1c1e; border-color: #2c2c2e; }
+  .ibd-set-slider-row { border-top-color: #2c2c2e; }
+  .ibd-set-slider-label { color: #f0f0f0; }
+  .ibd-set-toggle-row { color: #f0f0f0; }
+  .ibd-toggle-track { background: #3a3a3c; }
+
+  .ibd-slider { background: #3a3a3c; }
+
+  .ibd-text-input { background: #2c2c2e; border-color: #3a3a3c; color: #f0f0f0; }
+  .ibd-text-input:focus { border-color: #409cff; box-shadow: 0 0 0 3px rgba(64,156,255,0.15); }
+
+  .ibd-account-email { color: #f0f0f0; }
+  .ibd-btn-ghost { border-color: #3a3a3c; color: #aaa; }
+  .ibd-btn-ghost:hover:not(:disabled) { color: #f0f0f0; border-color: #666; }
+  .ibd-btn-destructive { border-color: #3a3a3c; }
+  .ibd-btn-destructive:hover:not(:disabled) { background: #3b1515; border-color: #dc2626; }
+  .ibd-btn-ghost-sm { border-color: #3a3a3c; color: #888; }
+
+  .ibd-kbd { background: #2c2c2e; border-color: #3a3a3c; color: #aaa; }
+
+  .ibd-trial-banner {
+    background: #172554;
+    color: #93c5fd;
+    border-bottom-color: #1e3a8a;
+  }
+
+  .ibd-trial-warn {
+    background: #3d2e00;
+    color: #fcd34d;
+    border-bottom-color: #4d3900;
+  }
+
+  .ibd-trial-danger {
+    background: #3d0000;
+    color: #fca5a5;
+    border-bottom-color: #5a0000;
+  }
+
+  .ibd-section-header {
+    color: #444;
+  }
+
+  .ibd-section-divider {
+    background: #2c2c2e;
+  }
+
+  .ibd-row--suggested .ibd-title {
+    color: #666;
+  }
+
+  .ibd-close-footer {
+    border-top-color: #2c2c2e;
+  }
+
+  .ibd-section-count { color: #444; }
+  .ibd-section-count--stale { color: #fbbf24; }
+  .ibd-close-inline-btn { border-color: #fbbf24; color: #fbbf24; }
+  .ibd-close-inline-btn:hover { background: rgba(251,191,36,0.1); color: #fcd34d; }
+  .ibd-all-caught-up { color: #4ade80; }
+  .ibd-close-tab { color: #444; }
+  .ibd-close-tab:hover { background: #3b1515; color: #f87171; }
+
+  .ibd-onboarding-title { color: #f0f0f0; }
+  .ibd-onboarding-bullets li { color: #aaa; }
+  .ibd-onboarding-import-card { background: #2c2c2e; border-color: #3a3a3c; }
+  .ibd-onboarding-import-title { color: #f0f0f0; }
+}

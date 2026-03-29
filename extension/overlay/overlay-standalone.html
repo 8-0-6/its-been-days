@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>It's Been Days</title>
+  <link rel="stylesheet" href="overlay-standalone.css" />
+</head>
+<body>
+  <!-- ── Header (always visible) ── -->
+  <div class="header">
+    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+    </svg>
+    <input
+      type="text"
+      class="search"
+      id="search"
+      placeholder="Search tabs&hellip;"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+    />
+    <kbd class="esc-hint">ESC</kbd>
+    <button class="settings-btn" id="settings-btn" title="Settings">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ── Main view ── -->
+  <div id="main-view">
+    <div class="results" id="results"></div>
+    <div class="close-footer hidden" id="close-footer">
+      <button class="close-all-btn" id="close-all-btn"></button>
+    </div>
+    <div class="undo-toast hidden" id="undo-toast">
+      <span id="undo-msg"></span>
+      <button id="undo-btn">Undo</button>
+    </div>
+  </div>
+
+  <!-- ── Settings view ── -->
+  <div id="settings-view" class="hidden">
+    <div class="set-header">
+      <button class="back-btn" id="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <span class="set-title">Settings</span>
+    </div>
+    <div class="set-body" id="set-body">
+
+      <!-- Notifications -->
+      <div class="set-section">
+        <div class="set-label">Notifications</div>
+        <label class="set-toggle-row">
+          <span>Enable desktop notifications</span>
+          <span class="toggle-wrap">
+            <input type="checkbox" id="notif-toggle" />
+            <span class="toggle-track"></span>
+          </span>
+        </label>
+        <div class="set-slider-row">
+          <label class="set-slider-label">
+            Notify after <strong id="threshold-display">10</strong> days of inactivity
+          </label>
+          <input type="range" id="threshold-slider" min="1" max="30" value="10" class="slider" />
+          <div class="slider-ends"><span>1 day</span><span>30 days</span></div>
+          <p class="set-note">Also controls which tabs are highlighted as suggested.</p>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="set-section">
+        <div class="set-label">Support</div>
+        <div style="padding: 4px 16px 14px;">
+          <p class="set-muted">Free and open source. If this helps you, consider buying me a coffee.</p>
+          <div class="account-row" id="tip-row">
+            <button class="btn btn-primary" id="tip-btn">Buy Me a Coffee →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Archive -->
+      <div class="set-section">
+        <div class="set-label">Archive</div>
+        <p class="set-muted" id="archive-count"></p>
+        <button class="btn btn-destructive" id="clear-btn">Clear all archived tabs</button>
+        <div class="clear-confirm hidden" id="clear-confirm">
+          <strong>This cannot be undone.</strong>
+          <button class="btn btn-destructive-sm" id="clear-yes">Yes, delete everything</button>
+          <button class="btn btn-ghost-sm" id="clear-no">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Keyboard shortcut -->
+      <div class="set-section">
+        <div class="set-label">Keyboard Shortcut</div>
+        <p class="set-muted"><kbd class="kbd">&#8984; Shift Space</kbd> opens this overlay. If it doesn't work, another app (Alfred, Raycast) may be claiming it.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="overlay-standalone.js"></script>
+</body>
+</html>

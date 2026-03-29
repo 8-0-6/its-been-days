@@ -1,0 +1,412 @@
+/* It's Been Days — Settings page */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e8e8e8;
+  --text: #111;
+  --muted: #888;
+  --accent: #0071e3;
+  --accent-hover: #0062cc;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --success: #22c55e;
+  --amber: #f59e0b;
+  --radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111;
+    --surface: #1c1c1e;
+    --border: #2c2c2e;
+    --text: #f0f0f0;
+    --muted: #666;
+    --accent: #409cff;
+    --accent-hover: #5aabff;
+  }
+
+  .btn-primary { background: #f0f0f0; color: #1c1c1e; }
+  .btn-primary:hover:not(:disabled) { background: #e0e0e0; }
+
+  .slider::-webkit-slider-thumb { background: #f0f0f0; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ── Header ── */
+
+header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.wordmark {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.page-title {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ── Sections ── */
+
+section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+section h2 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* ── Toggle row ── */
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 4px 0;
+  gap: 12px;
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.toggle-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.toggle-wrap input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  display: block;
+  width: 40px;
+  height: 22px;
+  background: var(--border);
+  border-radius: 11px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-wrap input:checked + .toggle-track {
+  background: #34c759;
+}
+
+.toggle-wrap input:checked + .toggle-track::after {
+  transform: translateX(18px);
+}
+
+/* ── Slider field ── */
+
+.field-row {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1c1c1e;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── Auth form ── */
+
+.auth-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.text-input {
+  flex: 1;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+}
+
+/* ── Account section ── */
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.account-row:last-child {
+  margin-bottom: 0;
+}
+
+.account-email {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.status-badge.expired {
+  background: var(--danger);
+}
+
+.status-badge.active {
+  background: var(--success);
+}
+
+.status-badge.trial {
+  background: var(--amber);
+}
+
+/* ── Buttons ── */
+
+.btn {
+  height: 34px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, opacity 0.12s;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #0f0f0f;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2c2c2c;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.btn-destructive {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--border);
+}
+
+.btn-destructive:hover:not(:disabled) {
+  background: #fee2e2;
+  border-color: var(--danger);
+}
+
+.btn-destructive-sm {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.btn-ghost-sm {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── Keyboard shortcut ── */
+
+kbd {
+  font-family: inherit;
+  font-size: 12px;
+  background: var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+}
+
+.link {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ── Field note ── */
+
+.field-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* ── Trial status line (signed-out) ── */
+
+.trial-status-line {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.trial-status-line.trial {
+  color: var(--amber);
+}
+
+.trial-status-line.expired {
+  color: var(--danger);
+}
+
+/* ── Utility ── */
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.success {
+  color: var(--success);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#clear-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+}

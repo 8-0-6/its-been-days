@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Background: rounded square, indigo -->
+  <rect width="128" height="128" rx="28" fill="#6366f1"/>
+
+  <!-- Hourglass body (white) -->
+  <!-- Top trapezoid -->
+  <path d="M34 26 L94 26 L74 56 L54 56 Z" fill="white" opacity="0.95"/>
+  <!-- Bottom trapezoid -->
+  <path d="M54 72 L74 72 L94 102 L34 102 Z" fill="white" opacity="0.95"/>
+
+  <!-- Thin waist line -->
+  <rect x="52" y="55" width="24" height="18" rx="2" fill="#6366f1"/>
+
+  <!-- Sand falling — small dot at waist -->
+  <circle cx="64" cy="64" r="4" fill="white" opacity="0.9"/>
+
+  <!-- Sand pile in bottom -->
+  <ellipse cx="64" cy="96" rx="16" ry="5" fill="#c7d2fe" opacity="0.7"/>
+
+  <!-- Top frame bar -->
+  <rect x="30" y="22" width="68" height="6" rx="3" fill="white"/>
+  <!-- Bottom frame bar -->
+  <rect x="30" y="100" width="68" height="6" rx="3" fill="white"/>
+</svg>

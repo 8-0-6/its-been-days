@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>It's Been Days</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <span class="wordmark">It's Been Days</span>
+      <button class="settings-btn" id="settings-btn" title="Settings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div id="trial-banner" class="banner hidden"></div>
+
+    <!-- Shown when trial expired and no active subscription -->
+    <div id="paywall" class="hidden">
+      <p class="paywall-title">Tracking paused.</p>
+      <p class="paywall-body">Your archive is safe. Subscribe to start tracking again.</p>
+      <button id="paywall-subscribe-btn" class="paywall-btn">Sign in &amp; Subscribe →</button>
+    </div>
+
+    <div id="tab-list-container">
+      <div id="loading">Loading tabs…</div>
+      <ul id="tab-list" class="hidden"></ul>
+      <div id="empty-state" class="hidden">All clear. Enjoy it while it lasts.</div>
+    </div>
+
+    <footer id="footer" class="hidden">
+      <button id="close-suggested-btn" class="close-all-btn">
+        Close <span id="suggested-count">0</span> suggested tabs
+      </button>
+    </footer>
+
+    <div id="undo-toast" class="undo-toast hidden">
+      <span id="undo-msg"></span>
+      <button id="undo-btn">Undo</button>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

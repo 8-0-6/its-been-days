@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — It's Been Days</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <span class="wordmark">It's Been Days</span>
+      <span class="page-title">Settings</span>
+    </header>
+
+    <!-- Notifications ────────────────────────────────────────────────────── -->
+    <section>
+      <h2>Notifications</h2>
+
+      <label class="toggle-row">
+        <span class="toggle-label">Enable desktop notifications</span>
+        <span class="toggle-wrap">
+          <input type="checkbox" id="notif-enabled" />
+          <span class="toggle-track"></span>
+        </span>
+      </label>
+
+      <div class="field-row" id="threshold-row">
+        <label for="threshold" class="field-label">
+          Notify me after <strong><span id="threshold-display">10</span> days</strong> of inactivity
+        </label>
+        <input
+          type="range"
+          id="threshold"
+          min="1"
+          max="30"
+          value="10"
+          class="slider"
+        />
+        <div class="slider-labels">
+          <span>1 day</span>
+          <span>30 days</span>
+        </div>
+        <p class="field-note">This also controls which tabs are highlighted as suggested in the popup.</p>
+      </div>
+    </section>
+
+    <!-- Support ──────────────────────────────────────────────────────────── -->
+    <section>
+      <h2>Support</h2>
+      <p class="muted">
+        It's Been Days is free and open source. If it helps you, consider buying me a coffee.
+      </p>
+      <div class="account-row">
+        <button id="tip-btn" class="btn btn-primary">Buy Me a Coffee →</button>
+      </div>
+    </section>
+
+    <!-- Archive ──────────────────────────────────────────────────────────── -->
+    <section>
+      <h2>Archive</h2>
+      <p class="muted">
+        <span id="archive-count">—</span> archived tabs stored on this device.
+      </p>
+      <button id="clear-archive-btn" class="btn btn-destructive">Clear all archived tabs</button>
+      <p id="clear-confirm" class="hidden">
+        <strong>This cannot be undone.</strong>
+        <button id="clear-confirm-yes" class="btn btn-destructive-sm">Yes, delete everything</button>
+        <button id="clear-confirm-no" class="btn btn-ghost-sm">Cancel</button>
+      </p>
+    </section>
+
+    <!-- Keyboard shortcut ────────────────────────────────────────────────── -->
+    <section>
+      <h2>Keyboard Shortcut</h2>
+      <p class="muted">
+        <kbd>⌘ Shift Space</kbd> opens the tab search overlay.
+        If it doesn't work, another app (Alfred, Raycast) may be claiming it.
+      </p>
+      <a
+        class="link"
+        href="#"
+        id="remap-link"
+      >Remap at chrome://extensions/shortcuts →</a>
+    </section>
+  </div>
+
+  <script type="module" src="settings.js"></script>
+</body>
+</html>
