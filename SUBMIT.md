@@ -82,7 +82,11 @@ Free forever. No account required. Optional support via Buy Me a Coffee.
 ### 6. Privacy policy
 
 Required because the extension requests optional `history` permission.
-Host a page (GitHub Pages or similar) that says:
+Use this GitHub Pages URL in the Chrome Web Store form:
+
+`https://8-0-6.github.io/its-been-days/privacy-policy/`
+
+The page should state:
 
 > It's Been Days stores all data locally on your device using `chrome.storage.local`.
 > No data is sent to any external server. The `history` permission is only used
@@ -92,7 +96,7 @@ Host a page (GitHub Pages or similar) that says:
 
 - [ ] Tip jar URL in `background.js` points to your page
 - [ ] All four screenshots taken
-- [ ] Privacy policy URL ready
+- [ ] Privacy policy URL ready (`https://8-0-6.github.io/its-been-days/privacy-policy/`)
 - [ ] `manifest.json` version bumped
 - [ ] Zip built from clean `extension/` directory (no `.DS_Store`, no `node_modules`)
 - [ ] Tested: install → all features available immediately (no paywall)
