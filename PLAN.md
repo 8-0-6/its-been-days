@@ -2,6 +2,9 @@
 _Updated from PRD via /plan-ceo-review on 2026-03-28_
 _See `its-been-days-PRD.md` for the full original spec. This document captures all changes and decisions made during the CEO review._
 
+> Status note (2026-03-29): this file contains historical planning content, including older monetization assumptions.  
+> Current shipping model is free + optional tip jar. Use `README.md`, `SUBMIT.md`, and current `extension/` code as source of truth.
+
 ---
 
 ## What Changed from the PRD

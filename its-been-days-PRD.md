@@ -1,6 +1,9 @@
 # Product Requirements Document
 ## It's Been Days — Tab Inactivity Tracker & Archive for Chrome
 
+> Status note (2026-03-29): this PRD is a historical draft and contains legacy subscription language.  
+> Current shipping model is free + optional tip jar, with no required account flow.
+
 **Version:** 1.0
 **Author:** Bob
 **Last Updated:** March 2026

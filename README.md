@@ -4,6 +4,8 @@ Track tab inactivity, close stale tabs faster, and instantly recover anything fr
 
 `It's Been Days` is a lightweight Chrome extension for people who keep too many tabs open and still need to find things quickly.
 
+GitHub repository: [https://github.com/8-0-6/its-been-days](https://github.com/8-0-6/its-been-days)
+
 ## Why This Exists
 
 Chrome shows your tabs, but not how long they have been untouched.

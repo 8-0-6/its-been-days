@@ -25,14 +25,14 @@ It's Been Days shows you exactly how long each tab has been inactive — and mak
 **The overlay:**
 Press ⌘ Shift Space (Ctrl+Shift+Space on Windows) on any page to open a floating search panel. Type to filter your open and closed tabs. Arrow keys to navigate, Enter to switch or reopen, Delete to remove an archive entry. No mouse required.
 
-**The popup:**
-Click the extension icon to see your tabs ranked by how long they've been sitting there. "Suggested" tabs are the ones worth closing. Click × to close and archive, or "Close N suggested tabs" to sweep them all at once. Made a mistake? You have 5 seconds to undo.
+**The cleanup view:**
+Open the overlay and you will see stale tabs, open tabs, and recently archived tabs in one place. "Suggested" tabs are the ones worth closing. Click × to close and archive, or "Close N" to sweep stale tabs. Made a mistake? You have 5 seconds to undo.
 
 **Privacy:**
-Everything stays on your device. No tab data is ever sent to any server. No browsing history is collected or transmitted. The only network requests are for account authentication (sign-in via magic link) and subscription management — and those are optional.
+Everything stays on your device. No tab data is ever sent to any server. No account required. Optional history import is local-only and explicit opt-in.
 
-**Free trial:**
-Full functionality for 30 days, no credit card required. After that, $5/month to keep tracking. You can still browse your archive after the trial ends.
+**Pricing:**
+Free forever. No subscription. If you want to support development, there is an optional Buy Me a Coffee link in settings.
 
 ---
 
@@ -43,9 +43,9 @@ Productivity
 English
 
 ## Screenshots needed (1280x800 or 640x400):
-1. Popup showing tab list ranked by inactivity, with "suggested" tabs highlighted
+1. Overlay management view showing stale tabs with "suggested" highlights
 2. The ⌘+Shift+Space overlay open over a real webpage, showing search results
-3. Settings page showing account section + notification controls
+3. Settings page showing support section + notification controls
 4. Undo toast visible after closing tabs
 
 ## Promotional tile (440x280):

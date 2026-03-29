@@ -374,31 +374,6 @@ function activateItem(item) {
 async function closeSuggestedTabs(suggested) {
   const tabIds = suggested.map((i) => i.tabId);
 
-  const rows = Array.from(resultsList.querySelectorAll('.row'));
-  rows.forEach((r) => {
-    if (filtered[parseInt(r.dataset.idx, 10)]?.isSuggested) r.remove();
-  });
-
-  const staleHeader = resultsList.querySelector('.section-header-row');
-  if (staleHeader) staleHeader.remove();
-  const firstDivider = resultsList.querySelector('.section-divider');
-  if (firstDivider) firstDivider.remove();
-
-  filtered = filtered.filter((i) => !i.isSuggested);
-  resultsList.querySelectorAll('.row').forEach((r, i) => { r.dataset.idx = String(i); });
-
-  const caughtUp = document.createElement('div');
-  caughtUp.className = 'all-caught-up';
-  const cDot = document.createElement('span');
-  cDot.className = 'all-caught-up-dot';
-  caughtUp.appendChild(cDot);
-  caughtUp.appendChild(document.createTextNode('All caught up — no stale tabs'));
-  resultsList.insertBefore(caughtUp, resultsList.firstChild);
-
-  const divider = document.createElement('div');
-  divider.className = 'section-divider';
-  resultsList.insertBefore(divider, caughtUp.nextSibling);
-
   const result = await new Promise((r) =>
     chrome.runtime.sendMessage({ type: 'IBD_CLOSE_TABS', tabIds }, (res) => {
       void chrome.runtime.lastError;
@@ -406,14 +381,17 @@ async function closeSuggestedTabs(suggested) {
     })
   );
 
-  showUndoToast(tabIds.length, result.entryIds ?? [], result.tabs ?? []);
+  const closedCount = (result.closedTabIds ?? []).length;
+  if (closedCount > 0) {
+    showUndoToast(closedCount, result.entryIds ?? [], result.tabs ?? []);
+  }
+  await loadData();
+  renderResults(searchInput.value);
 }
 
 async function closeSingleTab(item, rowEl) {
-  rowEl.remove();
-  const idx = parseInt(rowEl.dataset.idx, 10);
-  filtered.splice(idx, 1);
-  resultsList.querySelectorAll('.row').forEach((r, i) => { r.dataset.idx = String(i); });
+  rowEl.style.opacity = '0.55';
+  rowEl.style.pointerEvents = 'none';
 
   const result = await new Promise((r) =>
     chrome.runtime.sendMessage({ type: 'IBD_CLOSE_TABS', tabIds: [item.tabId] }, (res) => {
@@ -422,7 +400,12 @@ async function closeSingleTab(item, rowEl) {
     })
   );
 
-  showUndoToast(1, result.entryIds ?? [], result.tabs ?? []);
+  const closedCount = (result.closedTabIds ?? []).length;
+  if (closedCount > 0) {
+    showUndoToast(closedCount, result.entryIds ?? [], result.tabs ?? []);
+  }
+  await loadData();
+  renderResults(searchInput.value);
 }
 
 async function removeArchiveEntry(item, rowEl, idx) {
@@ -563,6 +546,9 @@ if (clearYes) {
     if (clearConfirm) clearConfirm.classList.add('hidden');
     clearBtn.classList.remove('hidden');
     archivedItems = [];
+    filtered = filtered.filter((i) => i.type !== 'archived');
+    await loadData();
+    renderResults(searchInput.value);
   });
 }
 

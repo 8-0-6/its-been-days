@@ -1,75 +1,19 @@
-import { getTabsMetadata, getTrial, getSettings, getSubscriptionStatus } from '../utils/storage.js';
-import {
-  writeArchiveEntry,
-  deleteArchiveEntries,
-  markPopupClosing,
-} from '../utils/archive.js';
-import { computeAccessLevel, openCheckout } from '../utils/auth.js';
+import { getTabsMetadata, getSettings } from '../utils/storage.js';
+import { deleteArchiveEntries } from '../utils/archive.js';
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-// tabId → { tab, daysInactive, meta } — populated during render, used in close handlers
-const tabDataMap = new Map();
-
 async function init() {
-  const [metadata, trial, settings, sub, openTabs] = await Promise.all([
+  const [metadata, settings, openTabs] = await Promise.all([
     getTabsMetadata(),
-    getTrial(),
     getSettings(),
-    getSubscriptionStatus(),
     chrome.tabs.query({}),
   ]);
-
-  renderTrialBanner(trial);
-
-  const access = computeAccessLevel(trial, sub);
-  if (access === 'expired') {
-    showPaywall();
-  } else {
-    renderTabList(openTabs, metadata, settings.notification_threshold);
-  }
+  renderTabList(openTabs, metadata, settings.notification_threshold);
 
   document.getElementById('settings-btn').addEventListener('click', () => {
     chrome.runtime.openOptionsPage();
   });
-}
-
-function showPaywall() {
-  document.getElementById('loading').classList.add('hidden');
-  document.getElementById('tab-list-container').classList.add('hidden');
-  document.getElementById('paywall').classList.remove('hidden');
-
-  // Send to settings to sign in first, then subscribe.
-  // openCheckout() without an auth session creates a Stripe customer with no
-  // matching users row (the FK requires auth.users.id), so the webhook upsert
-  // silently fails and the subscription never activates.
-  const btn = document.getElementById('paywall-subscribe-btn');
-  btn.addEventListener('click', () => {
-    chrome.runtime.openOptionsPage();
-    window.close();
-  });
-}
-
-// ── Trial banner ──────────────────────────────────────────────────────────
-
-function renderTrialBanner(trial) {
-  if (!trial) return;
-  const now = Date.now();
-  const daysLeft = Math.max(0, Math.ceil((trial.trial_ends_at - now) / MS_PER_DAY));
-  if (daysLeft <= 0) return; // expired state handled Day 4
-
-  const banner = document.getElementById('trial-banner');
-  let cls = '';
-  if (daysLeft <= 1) {
-    cls = 'danger';
-    banner.textContent = 'Your trial ends tomorrow';
-  } else if (daysLeft <= 5) {
-    cls = 'warn';
-    banner.textContent = `Your trial ends in ${daysLeft} days`;
-  } else {
-    banner.textContent = `${daysLeft} day${daysLeft === 1 ? '' : 's'} left in your trial`;
-  }
-  banner.className = `banner${cls ? ` ${cls}` : ''}`;
 }
 
 // ── Tab list ──────────────────────────────────────────────────────────────
@@ -90,11 +34,14 @@ function renderTabList(openTabs, metadata, threshold) {
     // Prefer it over stored metadata, which may be stale from a fresh install.
     const since = tab.lastAccessed ?? meta?.last_visited ?? meta?.opened_at ?? now;
     const daysInactive = Math.floor((now - since) / MS_PER_DAY);
-    tabDataMap.set(tab.id, { tab, daysInactive, meta });
     return {
       tab,
       daysInactive,
-      isSuggested: daysInactive >= threshold && !tab.pinned && !tab.audible,
+      isSuggested:
+        daysInactive >= threshold &&
+        !tab.pinned &&
+        !tab.audible &&
+        !(meta?.kept_until && meta.kept_until > now),
     };
   });
 
@@ -133,18 +80,23 @@ function renderTabList(openTabs, metadata, threshold) {
     const btn = e.target.closest('.tab-close-btn');
     if (!btn) return;
     const tabId = Number(btn.dataset.tabId);
-    await closeTabs([tabId]);
-    btn.closest('.tab-row').remove();
-    updateSuggestedCount(tabList, suggestedCount, footer);
+    const closedTabIds = await closeTabs([tabId]);
+    if (closedTabIds.includes(tabId)) {
+      btn.closest('.tab-row').remove();
+      updateSuggestedCount(tabList, suggestedCount, footer);
+    }
   });
 
   // Close all suggested
   closeAllBtn.addEventListener('click', async () => {
     const rows = Array.from(tabList.querySelectorAll('.tab-row.suggested'));
     const ids = rows.map((r) => Number(r.dataset.tabId));
-    await closeTabs(ids);
-    rows.forEach((r) => r.remove());
-    footer.classList.add('hidden');
+    const closedTabIds = await closeTabs(ids);
+    rows.forEach((r) => {
+      const id = Number(r.dataset.tabId);
+      if (closedTabIds.includes(id)) r.remove();
+    });
+    updateSuggestedCount(tabList, suggestedCount, footer);
   });
 }
 
@@ -155,49 +107,18 @@ function renderTabList(openTabs, metadata, threshold) {
 let pendingUndo = null; // { entryIds, tabs, timerId }
 
 async function closeTabs(tabIds) {
-  // Collect archive data before removing
-  const toArchive = tabIds.map((id) => {
-    const data = tabDataMap.get(id);
-    return {
-      tabId: id,
-      url: data?.tab.url ?? '',
-      title: data?.tab.title ?? '',
-      favicon_url: data?.tab.favIconUrl ?? '',
-      last_visited: data?.meta?.last_visited ?? data?.meta?.opened_at ?? Date.now(),
-      days_inactive: data?.daysInactive ?? 0,
-    };
-  });
-
-  // Mark so background.js skips archiving these specific tab IDs
-  await markPopupClosing(tabIds);
-
-  // Write archive entries
-  const entryIds = await Promise.all(
-    toArchive.map((entry) =>
-      writeArchiveEntry({
-        url: entry.url,
-        title: entry.title,
-        favicon_url: entry.favicon_url,
-        last_visited: entry.last_visited,
-        days_inactive: entry.days_inactive,
-      })
-    )
+  const result = await new Promise((resolve) =>
+    chrome.runtime.sendMessage({ type: 'IBD_CLOSE_TABS', tabIds }, (res) => {
+      void chrome.runtime.lastError;
+      resolve(res ?? {});
+    })
   );
 
-  // Remove tabs — wrap in try-catch because a tab might have been closed
-  // externally (Cmd+W) between when the user clicked and when we execute.
-  try {
-    await chrome.tabs.remove(tabIds);
-  } catch {
-    // One or more tabs were already gone. Archive entries are already written
-    // and the popup-closing flag is set, so background.js won't double-archive.
+  const closedTabIds = result.closedTabIds ?? [];
+  if (closedTabIds.length > 0) {
+    showUndoToast(closedTabIds.length, result.entryIds ?? [], result.tabs ?? []);
   }
-
-  showUndoToast(
-    tabIds.length,
-    entryIds,
-    toArchive.map((e) => ({ url: e.url, title: e.title }))
-  );
+  return closedTabIds;
 }
 
 // ── Undo toast ─────────────────────────────────────────────────────────────

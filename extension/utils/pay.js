@@ -1,9 +1,5 @@
-// utils/pay.js — Payment status cache wrapper
-//
-// background.js is the SOLE caller of extpay directly.
-// Everything else (overlay, settings) sends IBD_GET_PAYMENT_STATUS to background.
-//
-// Cache TTL: 24 hours. On cache miss / network failure → optimistic allow.
+// utils/pay.js — Legacy paywall helpers kept for compatibility.
+// The current shipping build is free + optional tip jar.
 
 import { getSubscriptionStatus, setSubscriptionStatus } from './storage.js';
 

@@ -470,6 +470,7 @@
     clearBtn.classList.remove('ibd-hidden');
     archivedItems = [];
     allItems = [...openItems];
+    renderResults(searchInput.value);
   });
 
   // ── Data loading ────────────────────────────────────────────────────────────
@@ -677,37 +678,6 @@
   async function closeSuggestedTabs(suggested) {
     const tabIds = suggested.map((i) => i.tabId);
 
-    // Remove stale rows from DOM immediately
-    const rows = Array.from(resultsList.querySelectorAll('.ibd-row'));
-    rows.forEach((r) => {
-      const idx = parseInt(r.dataset.idx, 10);
-      if (filtered[idx]?.isSuggested) r.remove();
-    });
-
-    // Remove the stale section header + first divider
-    const staleHeader = resultsList.querySelector('.ibd-section-header-row');
-    if (staleHeader) staleHeader.remove();
-    const firstDivider = resultsList.querySelector('.ibd-section-divider');
-    if (firstDivider) firstDivider.remove();
-
-    filtered = filtered.filter((i) => !i.isSuggested);
-    resultsList.querySelectorAll('.ibd-row').forEach((r, i) => { r.dataset.idx = String(i); });
-    activeIdx = Math.min(Math.max(activeIdx, 0), filtered.length - 1);
-    if (filtered.length > 0) highlightActive();
-
-    // Insert "All caught up" after stale section removed
-    const caughtUp = document.createElement('div');
-    caughtUp.className = 'ibd-all-caught-up';
-    const cDot = document.createElement('span');
-    cDot.className = 'ibd-all-caught-up-dot';
-    caughtUp.appendChild(cDot);
-    caughtUp.appendChild(document.createTextNode('All caught up \u2014 no stale tabs'));
-    resultsList.insertBefore(caughtUp, resultsList.firstChild);
-
-    const divider = document.createElement('div');
-    divider.className = 'ibd-section-divider';
-    resultsList.insertBefore(divider, caughtUp.nextSibling);
-
     const result = await new Promise((r) =>
       chrome.runtime.sendMessage({ type: 'IBD_CLOSE_TABS', tabIds }, (res) => {
         void chrome.runtime.lastError;
@@ -715,16 +685,18 @@
       })
     );
 
-    showUndoToast(tabIds.length, result.entryIds ?? [], result.tabs ?? []);
+    const closedCount = (result.closedTabIds ?? []).length;
+    if (closedCount > 0) {
+      showUndoToast(closedCount, result.entryIds ?? [], result.tabs ?? []);
+    }
+    await loadData();
+    renderResults(searchInput.value);
   }
 
   // Close a single open tab from the overlay
   async function closeSingleTab(item, rowEl) {
-    rowEl.remove();
-    const idx = parseInt(rowEl.dataset.idx, 10);
-    filtered.splice(idx, 1);
-    resultsList.querySelectorAll('.ibd-row').forEach((r, i) => { r.dataset.idx = String(i); });
-    if (item.isSuggested) refreshCloseFooter();
+    rowEl.style.opacity = '0.55';
+    rowEl.style.pointerEvents = 'none';
 
     const result = await new Promise((r) =>
       chrome.runtime.sendMessage({ type: 'IBD_CLOSE_TABS', tabIds: [item.tabId] }, (res) => {
@@ -733,20 +705,12 @@
       })
     );
 
-    showUndoToast(1, result.entryIds ?? [], result.tabs ?? []);
-  }
-
-  // Recompute the inline close-all button label (only used in search mode footer)
-  function refreshCloseFooter() {
-    const stillSuggested = openItems.filter((i) => i.isSuggested);
-    if (stillSuggested.length > 0) {
-      closeFooterBtn.textContent =
-        `Close ${stillSuggested.length} suggested tab${stillSuggested.length === 1 ? '' : 's'}`;
-      closeFooter.classList.remove('ibd-hidden');
-      closeFooterBtn.onclick = () => closeSuggestedTabs(stillSuggested);
-    } else {
-      closeFooter.classList.add('ibd-hidden');
+    const closedCount = (result.closedTabIds ?? []).length;
+    if (closedCount > 0) {
+      showUndoToast(closedCount, result.entryIds ?? [], result.tabs ?? []);
     }
+    await loadData();
+    renderResults(searchInput.value);
   }
 
   // ── Undo toast ──────────────────────────────────────────────────────────────

@@ -135,6 +135,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     }
   }
   await setTabsMetadata(metadata);
+  await updateBadge();
 });
 
 chrome.tabs.onCreated.addListener(async (tab) => {
@@ -178,6 +179,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   if (changeInfo.title) metadata[tabId].title = changeInfo.title;
   if (changeInfo.favIconUrl) metadata[tabId].favicon_url = changeInfo.favIconUrl;
   await setTabsMetadata(metadata);
+  await updateBadge();
 });
 
 // ── Daily alarm ─────────────────────────────────────────────────────────────
@@ -203,15 +205,23 @@ async function recalculateInactivity() {
 }
 
 async function checkNotificationThreshold() {
-  const [metadata, settings] = await Promise.all([getTabsMetadata(), getSettings()]);
+  const [metadata, settings, openTabs] = await Promise.all([
+    getTabsMetadata(),
+    getSettings(),
+    chrome.tabs.query({}),
+  ]);
   if (!settings.notifications_enabled) return;
   if (!(await isAccessActive())) return;
 
   const now = Date.now();
-  const overThreshold = Object.values(metadata).filter(
-    (t) => t.days_inactive >= settings.notification_threshold &&
-           !(t.kept_until && t.kept_until > now)
-  );
+  const overThreshold = openTabs.filter((tab) => {
+    const meta = metadata[tab.id];
+    if (!meta) return false;
+    if (meta.kept_until && meta.kept_until > now) return false;
+    const since = meta.last_visited ?? meta.opened_at ?? now;
+    const days = Math.floor((now - since) / MS_PER_DAY);
+    return days >= settings.notification_threshold && !tab.pinned && !tab.audible;
+  });
   if (overThreshold.length === 0) return;
 
   const n = overThreshold.length;
@@ -228,7 +238,14 @@ async function checkNotificationThreshold() {
 
 chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) => {
   if (notificationId === 'daily-summary' && buttonIndex === 0) {
-    chrome.action.openPopup?.();
+    void toggleOverlay();
+  }
+});
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName !== 'local') return;
+  if (changes.settings || changes.tabs_metadata) {
+    void updateBadge();
   }
 });
 
@@ -247,14 +264,28 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   }
 
   if (msg.type === 'IBD_FOCUS_TAB') {
-    chrome.tabs.update(msg.tabId, { active: true });
-    chrome.windows.update(msg.windowId, { focused: true });
-    sendResponse({});
+    (async () => {
+      try {
+        await chrome.tabs.update(msg.tabId, { active: true });
+        await chrome.windows.update(msg.windowId, { focused: true });
+        sendResponse({ ok: true });
+      } catch (error) {
+        sendResponse({ ok: false, error: error?.message ?? 'Failed to focus tab' });
+      }
+    })();
+    return true;
   }
 
   if (msg.type === 'IBD_OPEN_URL') {
-    chrome.tabs.create({ url: msg.url });
-    sendResponse({});
+    (async () => {
+      try {
+        await chrome.tabs.create({ url: msg.url });
+        sendResponse({ ok: true });
+      } catch (error) {
+        sendResponse({ ok: false, error: error?.message ?? 'Failed to open URL' });
+      }
+    })();
+    return true;
   }
 
   if (msg.type === 'IBD_CLOSE_TABS') {
@@ -276,9 +307,23 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       });
 
       await markPopupClosing(tabIds);
+      const closedTabIds = [];
+      const failedTabIds = [];
+      for (const id of tabIds) {
+        try {
+          await chrome.tabs.remove(id);
+          closedTabIds.push(id);
+        } catch {
+          failedTabIds.push(id);
+          // If close failed, clear the popup-closing flag to avoid stale session flags.
+          await consumePopupClosingFlag(id);
+        }
+      }
 
+      const closedSet = new Set(closedTabIds);
+      const closedArchiveItems = toArchive.filter((e) => closedSet.has(e.tabId));
       const entryIds = await Promise.all(
-        toArchive.map((e) =>
+        closedArchiveItems.map((e) =>
           writeArchiveEntry({
             url: e.url,
             title: e.title,
@@ -289,11 +334,11 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         )
       );
 
-      try { await chrome.tabs.remove(tabIds); } catch { /* already gone */ }
-
       sendResponse({
         entryIds,
-        tabs: toArchive.map((e) => ({ url: e.url, title: e.title })),
+        tabs: closedArchiveItems.map((e) => ({ url: e.url, title: e.title })),
+        closedTabIds,
+        failedTabIds,
       });
     })();
     return true;

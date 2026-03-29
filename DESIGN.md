@@ -3,6 +3,9 @@
 _Extracted from `extension/overlay/overlay.css` and `extension/overlay/overlay-standalone.css`._
 _Update this file whenever a new token or component pattern is introduced._
 
+> Status note (2026-03-29): parts of this design doc reference legacy paywall/subscription states.
+> Current product model is free + optional tip jar.
+
 ---
 
 ## Philosophy
