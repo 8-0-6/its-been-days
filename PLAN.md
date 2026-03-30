@@ -4,6 +4,8 @@ _See `its-been-days-PRD.md` for the full original spec. This document captures a
 
 > Status note (2026-03-29): this file contains historical planning content, including older monetization assumptions.  
 > Current shipping model is free + optional tip jar. Use `README.md`, `SUBMIT.md`, and current `extension/` code as source of truth.
+> Update note (2026-03-30): legacy Supabase/Stripe backend files were removed from this repo.
+> Any references to Supabase auth, Stripe checkout, or webhooks in this document are legacy history only.
 
 ---
 

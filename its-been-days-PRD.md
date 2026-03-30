@@ -3,6 +3,8 @@
 
 > Status note (2026-03-29): this PRD is a historical draft and contains legacy subscription language.  
 > Current shipping model is free + optional tip jar, with no required account flow.
+> Update note (2026-03-30): legacy Supabase + Stripe implementation files were removed from the repository.
+> Any payment/backend references below are historical context only and are not active.
 
 **Version:** 1.0
 **Author:** Bob

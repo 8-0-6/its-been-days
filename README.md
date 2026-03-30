@@ -4,6 +4,9 @@ Track tab inactivity, close stale tabs faster, and instantly recover anything fr
 
 `It's Been Days` is a lightweight Chrome extension for people who keep too many tabs open and still need to find things quickly.
 
+> Note (2026-03-30): legacy Supabase + Stripe payment backend files were removed.
+> The current shipped model is free + optional `Buy Me a Coffee` support link only.
+
 GitHub repository: [https://github.com/8-0-6/its-been-days](https://github.com/8-0-6/its-been-days)
 
 ## Why This Exists
