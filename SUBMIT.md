@@ -36,6 +36,33 @@ zip -r ../its-been-days.zip . \
   - **Category**: Productivity
   - **Language**: English
 
+### CWS form fill — one-page checklist
+
+Use this as your exact fill order in the Web Store dashboard:
+
+1. **Upload package**
+   - Upload `its-been-days.zip`
+2. **Store listing**
+   - Name: `It's Been Days`
+   - Summary: `Track how long your tabs have been inactive. Close stale ones instantly.`
+   - Category: `Productivity`
+   - Language: `English`
+   - Short description: use the text in section 3 below
+   - Detailed description: use the text in section 3 below
+3. **Images**
+   - Upload 4 screenshots (`1280x800`) listed in section 4 below
+4. **Privacy**
+   - Privacy policy URL: `https://8-0-6.github.io/its-been-days/privacy-policy/`
+5. **Permissions justification**
+   - Use section 5 table below
+6. **Monetization consistency check**
+   - Confirm listing includes: `Free forever. No paywall. No trial lock. No subscription.`
+   - Confirm support is optional: `Buy Me a Coffee` link only
+7. **Final verification before submit**
+   - Tip button opens `https://buymeacoffee.com/itsbeendays`
+   - Install flow has no paywall and no locked features
+   - Zip is clean (no `.DS_Store`, no `node_modules`)
+
 ### 3. Store listing copy
 
 **Short description (132 chars max)**

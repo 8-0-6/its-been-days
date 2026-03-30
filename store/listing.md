@@ -32,7 +32,7 @@ Open the overlay and you will see stale tabs, open tabs, and recently archived t
 Everything stays on your device. No tab data is ever sent to any server. No account required. Optional history import is local-only and explicit opt-in.
 
 **Pricing:**
-Free forever. No subscription. If you want to support development, there is an optional Buy Me a Coffee link in settings.
+Free forever. No paywall. No trial lock. No subscription. If you want to support development, there is an optional Buy Me a Coffee link in settings.
 
 ---
 
