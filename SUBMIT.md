@@ -23,7 +23,12 @@
 cd extension
 zip -r ../its-been-days.zip . \
   --exclude '*.DS_Store' \
-  --exclude 'node_modules/*'
+  --exclude '*/node_modules/*' \
+  --exclude '.gstack/*' \
+  --exclude '*/.gstack/*' \
+  --exclude 'icons/gen-icons.mjs' \
+  --exclude 'icons/package.json' \
+  --exclude 'icons/bun.lock'
 ```
 
 ### 2. Developer Dashboard

@@ -323,8 +323,8 @@ function buildRow(item, idx, showCloseBtn = false) {
     row.appendChild(keepBtn);
   }
 
-  // Close-tab button
-  if (item.type === 'open' && (item.isSuggested || showCloseBtn)) {
+  // Close-tab button (all open rows)
+  if (item.type === 'open') {
     const closeTabBtn = document.createElement('button');
     closeTabBtn.className = 'close-tab';
     closeTabBtn.textContent = '×';

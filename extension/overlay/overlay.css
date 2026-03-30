@@ -642,11 +642,6 @@
 
 .ibd-back-btn:hover { background: rgba(0,113,227,0.07); }
 
-.ibd-settings-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #111;
-}
 
 .ibd-settings-body {
   overflow-y: auto;
@@ -1108,7 +1103,6 @@
   .ibd-settings-btn:hover { color: #aaa; background: #2c2c2e; }
 
   .ibd-settings-header { border-bottom-color: #2c2c2e; }
-  .ibd-settings-title { color: #f0f0f0; }
   .ibd-back-btn { color: #409cff; }
   .ibd-back-btn:hover { background: rgba(64,156,255,0.1); }
   .ibd-btn-primary { background: #f0f0f0; color: #1c1c1e; }

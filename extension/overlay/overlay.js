@@ -171,10 +171,6 @@
   backBtn.addEventListener('click', () => hideSettings());
   settingsHeader.appendChild(backBtn);
 
-  const settingsTitle = document.createElement('span');
-  settingsTitle.className = 'ibd-settings-title';
-  settingsTitle.textContent = 'Settings';
-  settingsHeader.appendChild(settingsTitle);
 
   const settingsBody = document.createElement('div');
   settingsBody.className = 'ibd-settings-body';
@@ -323,7 +319,7 @@
     if (!overlayOpen) return;
 
     if (!onboardingDone && !onboarding.history_import_offered) {
-      showOnboarding();
+      showOnboarding(onboarding.history_import_completed);
       return;
     }
 
@@ -343,14 +339,22 @@
 
   // ── Onboarding ─────────────────────────────────────────────────────────────
 
-  function showOnboarding() {
+  function showOnboarding(alreadyImported = false) {
     mainView.classList.add('ibd-hidden');
     settingsView.classList.add('ibd-hidden');
     onboardingView.classList.remove('ibd-hidden');
-    importBtn.disabled = false;
-    importBtn.textContent = 'Import history';
-    importStatus.className = 'ibd-import-status ibd-hidden';
-    importStatus.textContent = '';
+    if (alreadyImported) {
+      importBtn.disabled = true;
+      importBtn.textContent = 'History imported';
+      importStatus.textContent = 'Already imported.';
+      importStatus.className = 'ibd-import-status ibd-import-status--success';
+      importStatus.classList.remove('ibd-hidden');
+    } else {
+      importBtn.disabled = false;
+      importBtn.textContent = 'Import history';
+      importStatus.className = 'ibd-import-status ibd-hidden';
+      importStatus.textContent = '';
+    }
   }
 
   function dismissOnboarding() {
@@ -837,8 +841,8 @@
       row.appendChild(keepBtn);
     }
 
-    // Close-tab button (stale rows in management view, or all open rows in search mode)
-    if (item.type === 'open' && (item.isSuggested || showCloseBtn)) {
+    // Close-tab button (all open rows)
+    if (item.type === 'open') {
       const closeTabBtn = document.createElement('button');
       closeTabBtn.className = 'ibd-close-tab';
       closeTabBtn.textContent = '\u00d7';

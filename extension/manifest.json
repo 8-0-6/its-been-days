@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "It's Been Days",
+  "name": "It's Been Days - Stale Tab Manager",
   "version": "0.1.0",
   "description": "Track how long your tabs have been inactive. Instantly retrieve closed tabs.",
   "permissions": [
@@ -24,7 +24,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "It's Been Days",
+    "default_title": "It's Been Days - Stale Tab Manager",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
