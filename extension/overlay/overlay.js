@@ -283,7 +283,7 @@
   kbNote.className = 'ibd-set-muted';
   kbNote.innerHTML =
     '<kbd class="ibd-kbd">\u2318 Shift Space</kbd> opens this overlay. ' +
-    'If it doesn't work, remap it at chrome://extensions/shortcuts.';
+    'If it doesn\u2019t work, remap it at chrome://extensions/shortcuts.';
   kbSection.appendChild(kbNote);
 
   // ── State ──────────────────────────────────────────────────────────────────
