@@ -627,7 +627,7 @@
       openHeaderRow.className = 'ibd-section-header-row';
       const openLabel = document.createElement('span');
       openLabel.className = 'ibd-section-count';
-      openLabel.textContent = `OPEN (${openItems.length})`;
+      openLabel.textContent = `OPEN (${open.length})`;
       openHeaderRow.appendChild(openLabel);
       resultsList.appendChild(openHeaderRow);
 
