@@ -8,3 +8,18 @@ build/
 !.env.example
 .claude/
 .gstack/
+
+# Internal / planning docs (keep locally; do not publish to GitHub)
+PLAN.md
+TODOS.md
+DESIGN.md
+its-been-days-PRD.md
+SUBMIT.md
+AGENTS.md
+agent.md
+CLAUDE.md
+store/listing.md
+
+# Archives and design-only assets
+*.zip
+pic assets/
