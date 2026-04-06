@@ -567,8 +567,7 @@
       return;
     }
 
-    // In search mode every open-tab row gets a close button
-    filtered.forEach((item, idx) => resultsList.appendChild(buildRow(item, idx, true)));
+    filtered.forEach((item, idx) => resultsList.appendChild(buildRow(item, idx)));
     activeIdx = 0;
     highlightActive();
   }
@@ -601,7 +600,7 @@
       resultsList.appendChild(staleHeaderRow);
 
       for (const item of stale) {
-        const row = buildRow(item, filtered.length, false);
+        const row = buildRow(item, filtered.length);
         row.classList.add('ibd-row--suggested');
         resultsList.appendChild(row);
         filtered.push(item);
@@ -636,7 +635,7 @@
       resultsList.appendChild(openHeaderRow);
 
       for (const item of open) {
-        const row = buildRow(item, filtered.length, false);
+        const row = buildRow(item, filtered.length);
         resultsList.appendChild(row);
         filtered.push(item);
       }
@@ -658,7 +657,7 @@
       resultsList.appendChild(archHeaderRow);
 
       for (const item of recent) {
-        const row = buildRow(item, filtered.length, false);
+        const row = buildRow(item, filtered.length);
         resultsList.appendChild(row);
         filtered.push(item);
       }
@@ -757,9 +756,7 @@
   }
 
   // ── Row building ────────────────────────────────────────────────────────────
-  // showCloseBtn: true in search mode for open-tab rows; false in management view
-
-  function buildRow(item, idx, showCloseBtn = false) {
+  function buildRow(item, idx) {
     const row = document.createElement('div');
     row.className = 'ibd-row';
     row.dataset.idx = String(idx);

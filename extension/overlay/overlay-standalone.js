@@ -135,7 +135,7 @@ function renderResults(query) {
     return;
   }
 
-  filtered.forEach((item, idx) => resultsList.appendChild(buildRow(item, idx, true)));
+  filtered.forEach((item, idx) => resultsList.appendChild(buildRow(item, idx)));
   activeIdx = 0;
   highlightActive();
 }
@@ -167,7 +167,7 @@ function renderDefaultView() {
     resultsList.appendChild(staleHeaderRow);
 
     for (const item of stale) {
-      const row = buildRow(item, filtered.length, false);
+      const row = buildRow(item, filtered.length);
       row.classList.add('row--suggested');
       resultsList.appendChild(row);
       filtered.push(item);
@@ -201,7 +201,7 @@ function renderDefaultView() {
     resultsList.appendChild(openHeaderRow);
 
     for (const item of open) {
-      const row = buildRow(item, filtered.length, false);
+      const row = buildRow(item, filtered.length);
       resultsList.appendChild(row);
       filtered.push(item);
     }
@@ -223,7 +223,7 @@ function renderDefaultView() {
     resultsList.appendChild(archHeaderRow);
 
     for (const item of recent) {
-      const row = buildRow(item, filtered.length, false);
+      const row = buildRow(item, filtered.length);
       resultsList.appendChild(row);
       filtered.push(item);
     }
@@ -241,7 +241,7 @@ function renderDefaultView() {
 
 // ── Row building ──────────────────────────────────────────────────────────────
 
-function buildRow(item, idx, showCloseBtn = false) {
+function buildRow(item, idx) {
   const row = document.createElement('div');
   row.className = 'row';
   row.dataset.idx = String(idx);
