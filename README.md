@@ -39,7 +39,11 @@ This extension helps you:
 
 See also: `store/privacy-policy.html`
 
-## Install (Developer Mode)
+## Install
+
+Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/its-been-days-stale-tab-m/laphkkefdjddlaijljdhjnbjdiiaehap).
+
+## Install From Source
 
 1. Clone this repo
 2. Open `chrome://extensions`
