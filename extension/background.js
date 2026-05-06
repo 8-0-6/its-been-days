@@ -8,8 +8,8 @@ import {
 import {
   archiveTab,
   bulkWrite,
-  consumePopupClosingFlag,
-  markPopupClosing,
+  consumeExtensionClosingFlag,
+  markExtensionClosing,
   writeArchiveEntry,
 } from './utils/archive.js';
 const ALARM_DAILY = 'daily-check';
@@ -156,11 +156,11 @@ chrome.tabs.onCreated.addListener(async (tab) => {
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   withMetadataLock(async () => {
-    const isPopupClose = await consumePopupClosingFlag(tabId);
+    const isExtensionClose = await consumeExtensionClosingFlag(tabId);
     const metadata = await getTabsMetadata();
     const tabMeta = metadata[tabId];
     if (tabMeta) {
-      if (!isPopupClose) {
+      if (!isExtensionClose) {
         await archiveTab({ id: tabId, ...tabMeta }, tabMeta);
       }
       delete metadata[tabId];
@@ -306,7 +306,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         };
       });
 
-      await markPopupClosing(tabIds);
+      await markExtensionClosing(tabIds);
       const closedTabIds = [];
       const failedTabIds = [];
       for (const id of tabIds) {
@@ -315,8 +315,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
           closedTabIds.push(id);
         } catch {
           failedTabIds.push(id);
-          // If close failed, clear the popup-closing flag to avoid stale session flags.
-          await consumePopupClosingFlag(id);
+          // If close failed, clear the extension-closing flag to avoid stale session flags.
+          await consumeExtensionClosingFlag(id);
         }
       }
 
@@ -396,20 +396,9 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 
   // ── Support ──────────────────────────────────────────────────────────────
 
-  if (msg.type === 'IBD_GET_PAYMENT_STATUS') {
-    sendResponse({ isPaid: true, email: null, trialDaysLeft: 0, isFree: true });
-    return true;
-  }
-
   if (msg.type === 'IBD_OPEN_TIP_JAR') {
     chrome.tabs.create({ url: TIP_JAR_URL });
     sendResponse({ ok: true });
-  }
-
-  // Settings data
-  if (msg.type === 'IBD_GET_SETTINGS_DATA') {
-    sendResponse({ isPaid: true, email: null, trial: null, isFree: true });
-    return;
   }
 });
 

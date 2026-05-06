@@ -4,9 +4,6 @@ export const KEYS = {
   TABS_METADATA: 'tabs_metadata',
   ARCHIVE: 'archive',
   SETTINGS: 'settings',
-  TRIAL: 'trial',
-  SUBSCRIPTION_STATUS: 'subscription_status',
-  AUTH_SESSION: 'auth_session',
   ONBOARDING: 'onboarding',
 };
 
@@ -46,29 +43,6 @@ export async function setSettings(patch) {
   await storageSet({ [KEYS.SETTINGS]: { ...current, ...patch } });
 }
 
-// ── Trial ─────────────────────────────────────────────────────────────────
-
-export async function getTrial() {
-  const result = await storageGet(KEYS.TRIAL);
-  return result[KEYS.TRIAL] ?? null;
-}
-
-export async function setTrial(data) {
-  await storageSet({ [KEYS.TRIAL]: data });
-}
-
-// ── Subscription status (local cache, ExtensionPay-backed) ───────────────
-// Shape: { isPaid: boolean, email: string|null, cached_at: number|null }
-
-export async function getSubscriptionStatus() {
-  const result = await storageGet(KEYS.SUBSCRIPTION_STATUS);
-  return result[KEYS.SUBSCRIPTION_STATUS] ?? { isPaid: false, email: null, cached_at: null };
-}
-
-export async function setSubscriptionStatus(data) {
-  await storageSet({ [KEYS.SUBSCRIPTION_STATUS]: data });
-}
-
 // ── Onboarding ────────────────────────────────────────────────────────────────
 
 const DEFAULT_ONBOARDING = {
@@ -84,15 +58,4 @@ export async function getOnboarding() {
 export async function setOnboarding(data) {
   const current = await getOnboarding();
   await storageSet({ [KEYS.ONBOARDING]: { ...current, ...data } });
-}
-
-// ── Auth session ──────────────────────────────────────────────────────────────
-
-export async function getAuthSession() {
-  const result = await storageGet(KEYS.AUTH_SESSION);
-  return result[KEYS.AUTH_SESSION] ?? null;
-}
-
-export async function setAuthSession(data) {
-  await storageSet({ [KEYS.AUTH_SESSION]: data });
 }

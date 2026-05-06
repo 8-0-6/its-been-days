@@ -1,7 +1,7 @@
 import { KEYS } from './storage.js';
 
 const MAX_ENTRIES = 500;
-const SESSION_POPUP_CLOSING = 'popup_closing_tabs';
+const SESSION_EXTENSION_CLOSING = 'extension_closing_tabs';
 
 function localGet(keys) {
   return new Promise((resolve) => chrome.storage.local.get(keys, resolve));
@@ -101,24 +101,24 @@ export async function deleteArchiveEntries(ids) {
   await setArchive(archive);
 }
 
-// ── Popup-closing flag ─────────────────────────────────────────────────────
-// Popup marks tab IDs before calling chrome.tabs.remove so background.js
+// ── Extension-closing flag ─────────────────────────────────────────────────
+// Extension actions mark tab IDs before calling chrome.tabs.remove so background.js
 // knows not to double-archive those specific tabs.
 
-export async function markPopupClosing(tabIds) {
-  const result = await sessionGet(SESSION_POPUP_CLOSING);
-  const current = result[SESSION_POPUP_CLOSING] ?? {};
+export async function markExtensionClosing(tabIds) {
+  const result = await sessionGet(SESSION_EXTENSION_CLOSING);
+  const current = result[SESSION_EXTENSION_CLOSING] ?? {};
   for (const id of tabIds) current[id] = true;
-  await sessionSet({ [SESSION_POPUP_CLOSING]: current });
+  await sessionSet({ [SESSION_EXTENSION_CLOSING]: current });
 }
 
-// Returns true and clears the flag if the tab was popup-initiated.
-export async function consumePopupClosingFlag(tabId) {
-  const result = await sessionGet(SESSION_POPUP_CLOSING);
-  const current = result[SESSION_POPUP_CLOSING] ?? {};
+// Returns true and clears the flag if the tab was closed by the extension.
+export async function consumeExtensionClosingFlag(tabId) {
+  const result = await sessionGet(SESSION_EXTENSION_CLOSING);
+  const current = result[SESSION_EXTENSION_CLOSING] ?? {};
   if (!current[tabId]) return false;
   delete current[tabId];
-  await sessionSet({ [SESSION_POPUP_CLOSING]: current });
+  await sessionSet({ [SESSION_EXTENSION_CLOSING]: current });
   return true;
 }
 

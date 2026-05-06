@@ -89,39 +89,6 @@
   flex-shrink: 0;
 }
 
-/* ── Paywall banner ────────────────────────────────────────────────────────── */
-
-.ibd-paywall {
-  padding: 8px 16px;
-  font-size: 12px;
-  background: #fef3c7;
-  color: #92400e;
-  border-bottom: 1px solid #fde68a;
-  flex-shrink: 0;
-}
-
-.ibd-paywall-link {
-  color: #92400e;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.ibd-paywall-link:hover {
-  text-decoration: underline;
-}
-
-@media (prefers-color-scheme: dark) {
-  .ibd-paywall {
-    background: #3d2e00;
-    color: #fcd34d;
-    border-bottom-color: #4d3900;
-  }
-  .ibd-paywall-link {
-    color: #fcd34d;
-  }
-}
-
 /* ── Results ───────────────────────────────────────────────────────────────── */
 
 .ibd-results {
@@ -340,32 +307,6 @@
 .ibd-settings-btn:hover {
   color: #555;
   background: #f0f0f0;
-}
-
-/* ── Trial banner ──────────────────────────────────────────────────────────── */
-
-.ibd-trial-banner {
-  padding: 7px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-bottom: 1px solid #dbeafe;
-  flex-shrink: 0;
-}
-
-.ibd-trial-banner.ibd-hidden { display: none; }
-
-.ibd-trial-warn {
-  background: #fffbeb;
-  color: #92400e;
-  border-bottom-color: #fde68a;
-}
-
-.ibd-trial-danger {
-  background: #fef2f2;
-  color: #991b1b;
-  border-bottom-color: #fecaca;
 }
 
 /* ── Section headers + dividers ────────────────────────────────────────────── */
@@ -834,31 +775,6 @@
   white-space: nowrap;
 }
 
-.ibd-status-badge {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: #f2f2f7;
-  color: #3c3c43;
-  border: 1px solid rgba(0,0,0,0.1);
-  flex-shrink: 0;
-  letter-spacing: 0.3px;
-}
-
-.ibd-badge-trial   { background: rgba(245,158,11,0.1); color: #a05e00; border-color: rgba(245,158,11,0.25); }
-.ibd-badge-active  { background: rgba(34,197,94,0.1);  color: #1a7a34; border-color: rgba(34,197,94,0.25); }
-.ibd-badge-expired { background: rgba(239,68,68,0.08); color: #c0392b; border-color: rgba(239,68,68,0.2); }
-
-.ibd-trial-status-line {
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.ibd-trial-status-active { color: #f59e0b; }
-.ibd-trial-status-expired { color: #ef4444; }
-
 /* ── Buttons ───────────────────────────────────────────────────────────────── */
 
 .ibd-btn {
@@ -1129,24 +1045,6 @@
   .ibd-btn-ghost-sm { border-color: #3a3a3c; color: #888; }
 
   .ibd-kbd { background: #2c2c2e; border-color: #3a3a3c; color: #aaa; }
-
-  .ibd-trial-banner {
-    background: #172554;
-    color: #93c5fd;
-    border-bottom-color: #1e3a8a;
-  }
-
-  .ibd-trial-warn {
-    background: #3d2e00;
-    color: #fcd34d;
-    border-bottom-color: #4d3900;
-  }
-
-  .ibd-trial-danger {
-    background: #3d0000;
-    color: #fca5a5;
-    border-bottom-color: #5a0000;
-  }
 
   .ibd-section-header {
     color: #444;

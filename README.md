@@ -4,11 +4,6 @@ Track tab inactivity, close stale tabs faster, and instantly recover anything fr
 
 `It's Been Days` is a lightweight Chrome extension for people who keep too many tabs open and still need to find things quickly.
 
-> Note (2026-03-30): legacy Supabase + Stripe payment backend files were removed.
-> The current shipped model is free + optional `Buy Me a Coffee` support link only.
-
-GitHub repository: [https://github.com/8-0-6/its-been-days](https://github.com/8-0-6/its-been-days)
-
 ## Why This Exists
 
 Chrome shows your tabs, but not how long they have been untouched.
@@ -54,9 +49,7 @@ See also: `store/privacy-policy.html`
 
 ## Support
 
-The project is free and open source.
-
-If it helps you, you can support development via the in-app **Buy Me a Coffee** button (configured in `extension/background.js`).
+The project is free and open source. If it helps you, the extension includes an optional **Buy Me a Coffee** support link.
 
 ## Project Structure
 
@@ -66,8 +59,9 @@ extension/
   manifest.json                  # MV3 config
   overlay/                       # main keyboard overlay UI
   settings/                      # extension settings page
-  popup/                         # legacy popup UI (kept in repo)
   utils/                         # storage/archive/helpers
+docs/                            # GitHub Pages site and privacy policy
+store/                           # Chrome Web Store privacy policy copy/assets
 ```
 
 ## Development Notes
@@ -76,20 +70,8 @@ extension/
 - No framework runtime in extension UI (vanilla JS + CSS)
 - Main surfaces are overlay + settings
 
-Useful docs in this repo:
+## License
 
-- `SUBMIT.md` — Chrome Web Store submission checklist
-- `PLAN.md` — implementation notes and architecture planning
-- `its-been-days-PRD.md` — product requirement draft
-- `DESIGN.md` — UI and style decisions
-
-## Roadmap (Short-Term)
-
-- polish visual details and copy
-- improve onboarding flow
-- add better archive management ergonomics
-- publish stable Web Store release
-
----
+MIT
 
 Built for tab hoarders who still want fast retrieval.

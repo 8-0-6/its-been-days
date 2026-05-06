@@ -70,19 +70,6 @@ body {
 }
 .settings-btn:hover { color: #1c1c1e; background: rgba(0, 0, 0, 0.06); }
 
-/* ── Trial banner ── */
-.trial-banner {
-  padding: 7px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-bottom: 1px solid #dbeafe;
-  flex-shrink: 0;
-}
-.trial-warn  { background: #fffbeb; color: #92400e; border-bottom-color: #fde68a; }
-.trial-danger { background: #fef2f2; color: #991b1b; border-bottom-color: #fecaca; }
-
 /* ── Results ── */
 .results {
   overflow-y: auto;
@@ -376,20 +363,6 @@ body {
 }
 #undo-btn:hover { border-color: #d1d5db; color: #f9fafb; }
 
-/* ── Paywall ── */
-.paywall {
-  margin: 10px 12px;
-  padding: 11px 14px;
-  background: #fff;
-  border: 1px solid #fde68a;
-  border-radius: 10px;
-  font-size: 13px;
-  color: #92400e;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-}
-.paywall a { color: #b45309; font-weight: 600; text-decoration: none; }
-.paywall a:hover { text-decoration: underline; }
-
 /* ── Utility ── */
 .hidden { display: none !important; }
 
@@ -557,30 +530,6 @@ body {
 .account-row:last-child { margin-bottom: 0; }
 .account-email { font-size: 13px; font-weight: 500; color: #1c1c1e; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* Status badge — rectangular tag, not pill; each state uses a muted tint */
-.status-badge {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: #f2f2f7;
-  color: #3c3c43;
-  border: 1px solid rgba(0,0,0,0.1);
-  flex-shrink: 0;
-  letter-spacing: 0.3px;
-}
-.badge-trial   { background: rgba(255,159,10,0.1);  color: #a05e00; border-color: rgba(255,159,10,0.25); }
-.badge-active  { background: rgba(48,209,88,0.1);   color: #1a7a34; border-color: rgba(48,209,88,0.25); }
-.badge-expired { background: rgba(255,59,48,0.08);  color: #c0392b; border-color: rgba(255,59,48,0.2); }
-
-/* Trial status line ("X days remaining") — quiet secondary text */
-.trial-status-line { font-size: 12px; color: #8e8e93; margin-bottom: 10px; margin-top: 2px; font-weight: 400; }
-.trial-status-active  { color: #8e8e93; }
-.trial-status-expired { color: #ff3b30; }
-
-/* Upgrade row gets a subtle separator so it feels like a distinct action */
-#upgrade-row { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; margin-top: 6px; }
-
 /* ── Buttons ── */
 .btn {
   height: 31px;
@@ -646,19 +595,12 @@ body {
   .delete:hover { background: #3b1515; color: #ff453a; }
   .keep { border-color: #3a3a3c; color: #666; }
   .keep:hover { border-color: #22c55e; color: #4ade80; }
-  .status-badge { background: #3a3a3c; color: #aeaeb2; border-color: rgba(255,255,255,0.08); }
-  .badge-trial   { background: rgba(255,159,10,0.15); color: #fbbf24; border-color: rgba(255,159,10,0.3); }
-  .badge-active  { background: rgba(48,209,88,0.12);  color: #4ade80; border-color: rgba(48,209,88,0.3); }
-  .badge-expired { background: rgba(255,59,48,0.12);  color: #f87171; border-color: rgba(255,59,48,0.3); }
-  .trial-status-line { color: #636366; }
-  #upgrade-row { border-top-color: rgba(255,255,255,0.06); }
   .empty { color: #636366; }
   .results::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
   .close-footer { border-top-color: rgba(255,255,255,0.06); }
   .close-all-btn { background: none; border-color: #f59e0b; color: #f59e0b; }
   .close-all-btn:hover { background: rgba(245, 158, 11, 0.12); }
   .undo-toast { background: #1f2937; border-top-color: #374151; }
-  .paywall { background: #2c2c2e; border-color: rgba(253,230,138,0.3); color: #fcd34d; }
   .set-header { background: #2c2c2e; border-bottom-color: rgba(255,255,255,0.06); }
   .back-btn { color: #409cff; }
   .back-btn:hover { background: rgba(64,156,255,0.1); }
@@ -683,9 +625,6 @@ body {
   .btn-destructive:hover:not(:disabled) { background: rgba(255,69,58,0.12); border-color: #ff453a; }
   .btn-ghost-sm { border-color: rgba(255,255,255,0.1); color: #8e8e93; }
   .kbd { background: #3a3a3c; border-color: rgba(255,255,255,0.08); color: #aeaeb2; }
-  .trial-banner { background: #172554; color: #93c5fd; border-bottom-color: #1e3a8a; }
-  .trial-warn  { background: #3d2e00; color: #fcd34d; border-bottom-color: #4d3900; }
-  .trial-danger { background: #3d0000; color: #fca5a5; border-bottom-color: #5a0000; }
   .set-muted { color: #636366; }
   .set-note  { color: #48484a; }
   .set-success { color: #30d158; }
